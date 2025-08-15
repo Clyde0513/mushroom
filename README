@@ -1,29 +1,31 @@
 # This repository contains processing, feature-engineering, modeling, and explainability work for the UCI Mushroom dataset (agaricus-lepiota)
 
+This repository contains code and artifacts used to process the UCI Mushroom dataset (Agaricus / Lepiota), produce engineered features, train tree-based models, and generate SHAP explainability outputs.
+
 ## Progress (snapshot: 2025-08-15)
 
-- Feature mapping / cleaning: created `mushroom_structured.csv` with human-readable category columns (e.g. `odor_readable`, `cap_color_readable`) and `label`/`label_num`.
-- Feature engineering: produced `mushroom_engineered.csv` with engineered features including `odor_freq`, `odor_poison_rate`, composite features (`cap_shape_surface`, `odor_capcolor`), top-gill flags, and `has_stalk_root`.
-- Leakage-safe encoding: implemented cross-validated (out-of-fold) target encoding and an sklearn-compatible transformer `TargetEncoderOOF` to compute OOF encodings and full-group means.
-- Refactor: `TargetEncoderOOF` moved to a reusable module `mushroom_transformers.py` so pipelines unpickle cleanly.
-- Modeling pipeline: ColumnTransformer + Pipeline with the OOF encoder, StandardScaler for numeric features, GridSearchCV for RandomForest (and optional LightGBM), and a saved best model `best_mushroom_model_oof.joblib`.
-- Explainability: SHAP-based analysis implemented; saved plots include `shap_summary.png`, `shap_summary_bar.png`, and dependence plots such as `shap_dependence_odor_capcolor.png`.
-- Diagnostics & scripts: added `analysis_shap_inspect.py` and `shap_open_and_summarize.py` for off-notebook diagnostics (correlations, SHAP dependence, misclassification by odor).
+- Feature mapping / cleaning: created mushroom_structured.csv with human-readable category columns (e.g. odor_readable, cap_color_readable) and label / label_num.
+- Feature engineering: produced mushroom_engineered.csv with engineered features including odor_freq, odor_poison_rate, composite features (cap_shape_surface, odor_capcolor), top-gill flags, and has_stalk_root.
+- Leakage-safe encoding: implemented cross-validated (out-of-fold) target encoding and an sklearn-compatible transformer TargetEncoderOOF to compute OOF encodings and full-group means.
+- Refactor: TargetEncoderOOF moved to a reusable module mushroom_transformers.py so pipelines unpickle cleanly.
+- Modeling pipeline: ColumnTransformer + Pipeline with the OOF encoder, StandardScaler for numeric features, GridSearchCV for RandomForest (and optional LightGBM), and a saved best model best_mushroom_model_oof.joblib.
+- Explainability: SHAP-based analysis implemented; saved plots include shap_summary.png, shap_summary_bar.png, and dependence plots such as shap_dependence_odor_capcolor.png.
+- Diagnostics & scripts: added analysis_shap_inspect.py and shap_open_and_summarize.py for off-notebook diagnostics (correlations, SHAP dependence, misclassification by odor).
 
 ## Important files
 
-- `mushroom_structuring.ipynb` — notebook with mapping, EDA, feature-engineering, pipeline, model training, and SHAP blocks.
-- `mushroom_engineered.csv` — engineered dataset used for modeling.
-- `mushroom_transformers.py` — reusable `TargetEncoderOOF` implementation.
-- `best_mushroom_model_oof.joblib` — saved best model pipeline (preprocessor + classifier).
-- `analysis_shap_inspect.py`, `shap_open_and_summarize.py` — scripts to reproduce diagnostics and SHAP summaries outside the notebook.
+- mushroom_structuring.ipynb — notebook with mapping, EDA, feature-engineering, pipeline, model training, and SHAP blocks.
+- mushroom_engineered.csv — engineered dataset used for modeling.
+- mushroom_transformers.py — reusable TargetEncoderOOF implementation.
+- best_mushroom_model_oof.joblib — saved best model pipeline (preprocessor + classifier).
+- analysis_shap_inspect.py, shap_open_and_summarize.py — scripts to reproduce diagnostics and SHAP summaries outside the notebook.
 
 ## Usage
 
 Quick reproduction (recommended minimal environment)
 
 - Python 3.8+ core packages: pandas, numpy, scikit-learn, joblib, matplotlib
-- For SHAP plots: install `shap` (and `xgboost`/`lightgbm` if you use those models). Example:
+- For SHAP plots: install shap (and xgboost/lightgbm if you use those models). Example:
 
 ## Installation
 
@@ -41,7 +43,7 @@ python c:\mushroom\shap_open_and_summarize.py
 
 ## Notes and next steps
 
-- Consider adding a package/module layout (e.g., `mushroom/` package) and moving utilities/tests into a small src/tests structure for easier packaging and CI.
+- Consider adding a package/module layout (e.g., mushroom/ package) and moving utilities/tests into a small src/tests structure for easier packaging and CI.
 - Add automated tests with pytest and a CI workflow to run the transformer tests and basic script smoke tests.
 - Optionally re-save the model using the importable module path for the transformer (already done) to avoid __main__ unpickle workarounds.
 
