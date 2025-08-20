@@ -20,6 +20,10 @@ This repository contains code and artifacts used to process the UCI Mushroom dat
 - best_mushroom_model_oof.joblib — saved best model pipeline (preprocessor + classifier).
 - analysis_shap_inspect.py, shap_open_and_summarize.py — scripts to reproduce diagnostics and SHAP summaries outside the notebook.
 
+## Another File to look at
+
+- See Jupyter-mushroom.ipynb for more additional details
+
 ## Usage
 
 Quick reproduction (recommended minimal environment)
